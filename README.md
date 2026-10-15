@@ -64,7 +64,16 @@ The API is not exposed directly, but you can reach it through the web container 
 | GET | `/health` | Health check |
 | GET | `/tasks` | List all tasks |
 | POST | `/tasks` | Create a task (`{ "title": "..." }`) |
-| PATCH | `/tasks/:id` | Update a task (`{ "completed": true }` or `{ "title": "..." }`) |
+| PATCH | `/tasks/:id` | Update a task (`{ "completed": true }` or `{ "title": "..." }`); `400` if `:id` is not a positive integer |
+| GET | `/students` | List students with `total` and `completed` task counts |
+| GET | `/students/:id/tasks` | One student's tasks (`{ "student", "tasks" }`); `404` if the id is not a student |
+| GET | `/dashboard/summary` | Totals across students: `students`, `total_tasks`, `completed_tasks` |
+
+### Teacher dashboard
+
+- `/teacher` shows completion totals and a table of students, each linking to `/teacher/:id`, which lists that student's tasks.
+- **Not access-controlled.** The app has no login, so these pages and the `/students` and `/dashboard/summary` API routes are visible to anyone who can reach the web tier. Do not deploy them publicly until authentication and a teacher role check exist.
+- Students and task ownership come from the `users.role` and `tasks.user_id` columns (migration `1718500002000`). Nothing in the app creates students yet, and new tasks created from `/` have no owner, so they do not appear on the dashboard.
 
 ## Project structure
 
