@@ -5,3 +5,4 @@
 - Document important decisions.
 - Run tests before submitting.
 - Keep pull requests small.
+- Explain why your changes are needed.
